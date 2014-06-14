@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title><%= @title || 'Easy Auto Insurance Help' %></title>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application", '//js.maxmind.com/js/apis/geoip2/v2.0/geoip2.js'%>
+  <%= csrf_meta_tags %>
+</head>
+<body class="application">
+<div id="wrap">
+  <header>
+    <h1 class="title text-center">Your&#8203;LeadGeneration&#8203;Site.com</h1>
+  </header>
+
+  <div class="container">
+    <%= render partial: 'carrier_logos' %>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= yield %>
+      </div>
+    </div>
+
+    <div id="call-me-form">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8 pull-right" id="jumbotron">
+          <h1 class="title all-caps">Rates as low <br>as <span class="red">$9/week</span> <br>on auto<br>coverage</h1>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4" id="the-form">
+          <h2 class="text-center">Get FREE<br>
+            Professional Advice
+          </h2>
+
+          <form accept-charset="UTF-8" action="/" autocomplete="off" class="form-horizontal" method="post" novalidate="novalidate" role="form">
+            <div class="form-group tel required contact_phone" style="<%= 'display: none;' if params[:auto] == 'results' && params[:hide] == 'true' %>">
+              <label class="tel required col-sm-4" for="contact_phone"><abbr title="required">*</abbr>&nbsp;Phone</label>
+
+              <div class="col-sm-8">
+                <input class="string tel required form-control" id="contact_phone" name="contact[phone]" type="tel">
+              </div>
+            </div>
+            <div class="form-group string required contact_zip_code">
+              <label class="string required col-sm-4" for="contact_zip_code"><abbr title="required">*</abbr>&nbsp;Zip
+                code</label>
+
+              <div class="col-sm-8">
+                <input class="string required form-control" id="contact_zip_code" name="contact[zip_code]" type="text">
+              </div>
+            </div>
+            <div class="form-group radio_buttons required contact_currently_insured">
+              <label class="radio_buttons required col-sm-4"><abbr title="required">*</abbr>&nbsp;Currently
+                insured</label>
+
+              <div class="col-sm-8">
+                <div class="radio">
+                  <label>
+                    <input id="contact_currently_insured_yes" name="contact[currently_insured]" type="radio" value="yes" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input id="contact_currently_insured_no" name="contact[currently_insured]" type="radio" value="no">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group radio_buttons required contact_call_me_now" style="<%= 'display: none' if params[:hide] == 'true' %>">
+              <label class="radio_buttons required col-sm-4"><abbr title="required">*</abbr>&nbsp;My&nbsp;choice</label>
+
+              <div class="col-sm-8">
+                <div class="radio">
+                  <label>
+                    <input id="contact_call_me_now_yes" name="contact[call_me_now]" type="<%= params[:auto] == 'both' ? 'checkbox' : 'radio' %>" value="yes" <%= 'checked' if params[:auto].present? && params[:auto] == 'call' || params[:auto] == 'both' %>>
+                    Call Me Right Now
+                  </label>
+                </div>
+                <div class="radio">
+
+                  <label>
+                    <input id="contact_call_me_now_no" name="contact[call_me_now]" type="<%= params[:auto] == 'both' ? 'checkbox' : 'radio' %>" value="no" <%= 'checked' if params[:auto].blank? || params[:auto] == 'results' || params[:auto] == 'both' %>>
+                    Show Me Available Agencies
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <button type="button" class="btn btn-lg btn-danger disabled click-to-call">Save Me Money*</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="results">
+    </div>
+
+    <div id="save">
+      <h3 class="blue">Save Money Now!</h3>
+      <ul>
+        <li>Auto Insurance Is Required, Get Insured Today</li>
+        <li>You Can't Buy It Cheaper Anywhere</li>
+        <li>Our Agents Will Find The Plan That Works For You</li>
+      </ul>
+    </div>
+
+    <div id="disclaimer">
+    <span>*In accordance with the Federal TCPA Rules as ammended on 10/16/2013 we must inform you that by entering a
+      phone number, you consent to be called or texted (prerecorded or autodialed) by or on behalf of
+      YourLeadGenerationSite.com and one or more of YourLeadGenerationSite.com clients or their agents. Consent not
+      required for purchase. See our <a href="#privacy" data-toggle="tab">Privacy
+      Policy</a> for complete information about your privacy.</span>
+    </div>
+
+    <div id="about">
+      <ul class="nav nav-pills">
+        <li><a href="#know" data-toggle="tab">Know what you are getting</a></li>
+        <li><a href="#rate-factors" data-toggle="tab">Rate factors</a></li>
+        <li><a href="#prices-vary" data-toggle="tab">Prices vary by company</a></li>
+        <li><a href="#five-things" data-toggle="tab">5 other things</a></li>
+        <li><a href="#privacy" data-toggle="tab">Privacy Policy</a></li>
+        <li>
+          <a href="#">Unsubscribe</a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane" id="know"><%= render partial: 'application/know' %></div>
+        <div class="tab-pane" id="rate-factors"><%= render partial: 'application/rate_factors' %></div>
+        <div class="tab-pane" id="prices-vary"><%= render partial: 'application/prices_vary' %></div>
+        <div class="tab-pane" id="five-things"><%= render partial: 'application/five_things' %></div>
+        <div class="tab-pane" id="privacy"><%= render partial: 'application/privacy' %></div>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-center text-muted">
+        Copyright &copy; 2014 YourLeadGenerationSite. All Rights Reserved.
+      </p>
+    </div>
+
+    <div style="display: none;">
+      <script src="http://callpixels.com/callpixels.js?key=<%= ENV['CALLPIXELS_SHOW_KEY'] %>&default_number=" type="text/javascript"></script>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+<% title 'Your Results' %>
+
+<script src="http://callpixels.com/targets/search.js?show_key=<%= ENV['CALLPIXELS_SHOW_KEY'] %>&geo=<%= params[:geo] %>&ai_currently_insured=<%= params[:ai_currently_insured] %>" type="text/javascript"></script>
+
+<h2 class="results">Call these companies & compare!</h2>
+
+<div class="row" id="targets">
+  <%= render collection: @targets, partial: 'application/target' %>
+</div>

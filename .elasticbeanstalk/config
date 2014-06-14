@@ -1,0 +1,5 @@
+[global]
+ApplicationName=yourleadgensite
+DevToolsEndpoint=git.elasticbeanstalk.us-west-1.amazonaws.com
+EnvironmentName=yourleadgensite-env
+Region=us-west-1
